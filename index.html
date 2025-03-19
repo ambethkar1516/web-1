@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConnectDaily - Limited Posts Social Platform</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #1c1e21;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: #ffffff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      color: #1877f2;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-link {
+      color: #65676b;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .nav-link:hover {
+      color: #1877f2;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #e4e6eb;
+    }
+    
+    .main-content {
+      display: flex;
+      margin-top: 20px;
+      gap: 20px;
+    }
+    
+    .sidebar {
+      width: 25%;
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+    
+    .post-section {
+      width: 50%;
+    }
+    
+    .post-creation {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .post-input {
+      width: 100%;
+      border: none;
+      resize: none;
+      padding: 10px 0;
+      font-size: 16px;
+      outline: none;
+      border-bottom: 1px solid #e4e6eb;
+      margin-bottom: 10px;
+    }
+    
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .upload-options {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .upload-option {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #65676b;
+      cursor: pointer;
+    }
+    
+    .upload-option:hover {
+      color: #1877f2;
+    }
+    
+    .post-button {
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .post-button:disabled {
+      background-color: #e4e6eb;
+      color: #8a8d91;
+      cursor: not-allowed;
+    }
+    
+    .post-button:hover:not(:disabled) {
+      background-color: #166fe5;
+    }
+    
+    .post-counter {
+      color: #65676b;
+      font-size: 14px;
+    }
+    
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .post {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .post-user-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #e4e6eb;
+    }
+    
+    .post-info {
+      flex: 1;
+    }
+    
+    .post-username {
+      font-weight: 600;
+      color: #050505;
+    }
+    
+    .post-time {
+      font-size: 12px;
+      color: #65676b;
+    }
+    
+    .post-content {
+      margin-bottom: 15px;
+    }
+    
+    .post-media {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      max-height: 500px;
+      object-fit: contain;
+    }
+    
+    .post-stats {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-top: 1px solid #e4e6eb;
+      border-bottom: 1px solid #e4e6eb;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #65676b;
+    }
+    
+    .post-actions-bar {
+      display: flex;
+      justify-content: space-around;
+    }
+    
+    .post-action {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #65676b;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .post-action:hover {
+      background-color: #f0f2f5;
+    }
+    
+    .friends-section {
+      width: 25%;
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #050505;
+    }
+    
+    .friends-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .friend {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .friend-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #e4e6eb;
+    }
+    
+    .friend-name {
+      font-weight: 500;
+    }
+    
+    .find-friends {
+      background-color: #e7f3ff;
+      color: #1877f2;
+      text-align: center;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 15px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .find-friends:hover {
+      background-color: #dbebff;
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .message-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .message-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .message-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .message-content {
+      margin-bottom: 20px;
+    }
+    
+    .message-button {
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .comments-section {
+      margin-top: 10px;
+    }
+    
+    .comment {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .comment-pic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #e4e6eb;
+    }
+    
+    .comment-content {
+      background-color: #f0f2f5;
+      padding: 8px 12px;
+      border-radius: 18px;
+      flex: 1;
+    }
+    
+    .comment-username {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    
+    .comment-text {
+      font-size: 14px;
+    }
+    
+    .comment-input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .comment-input {
+      flex: 1;
+      border: none;
+      background-color: #f0f2f5;
+      border-radius: 20px;
+      padding: 8px 12px;
+      font-size: 14px;
+      outline: none;
+    }
+    
+    .comment-input:focus {
+      box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .sidebar, .post-section, .friends-section {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content container">
+      <div class="logo">ConnectDaily</div>
+      <div class="nav-links">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Explore</a>
+        <a href="#" class="nav-link">Notifications</a>
+      </div>
+      <div class="user-info">
+        <img src="/api/placeholder/40/40" alt="Profile Picture" class="profile-pic" id="user-pic">
+        <span id="username">John Doe</span>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="main-content">
+      <div class="sidebar">
+        <div class="section-title">Account</div>
+        <div class="post-counter">
+          Posts remaining today: <span id="posts-remaining">0</span>
+        </div>
+        <div class="find-friends" id="add-friend-btn">Add Friends</div>
+      </div>
+      
+      <div class="post-section">
+        <div class="post-creation">
+          <textarea placeholder="What's on your mind?" class="post-input" id="post-input"></textarea>
+          <div class="post-actions">
+            <div class="upload-options">
+              <label class="upload-option" for="image-upload">
+                <span>Photo</span>
+              </label>
+              <input type="file" id="image-upload" class="file-input" accept="image/*">
+              <label class="upload-option" for="video-upload">
+                <span>Video</span>
+              </label>
+              <input type="file" id="video-upload" class="file-input" accept="video/*">
+            </div>
+            <button class="post-button" id="post-button" disabled>Post</button>
+          </div>
+        </div>
+        
+        <div class="feed" id="feed">
+          <!-- Posts will be dynamically added here -->
+        </div>
+      </div>
+      
+      <div class="friends-section">
+        <div class="section-title">Friends</div>
+        <div class="friends-list" id="friends-list">
+          <!-- Friends will be dynamically added here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="message-overlay hidden" id="message-overlay">
+    <div class="message-box">
+      <div class="message-title" id="message-title"></div>
+      <div class="message-content" id="message-content"></div>
+      <button class="message-button" id="message-button">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // User data
+    const user = {
+      id: 1,
+      name: "John Doe",
+      profilePic: "/api/placeholder/40/40",
+      friends: [],
+      posts: [],
+      postsToday: 0
+    };
+    
+    // Sample posts data
+    const samplePosts = [
+      {
+        id: 101,
+        userId: 2,
+        username: "Jane Smith",
+        userPic: "/api/placeholder/40/40",
+        content: "Just finished a great book! Highly recommend it to everyone.",
+        media: "/api/placeholder/600/400",
+        mediaType: "image",
+        timestamp: new Date(Date.now() - 3600000).toISOString(),
+        likes: 15,
+        comments: [
+          { userId: 3, username: "Mike Johnson", userPic: "/api/placeholder/32/32", text: "What's the title? I need a new book!" },
+          { userId: 4, username: "Sarah Williams", userPic: "/api/placeholder/32/32", text: "Sounds great! I'll check it out." }
+        ]
+      },
+      {
+        id: 102,
+        userId: 3,
+        username: "Mike Johnson",
+        userPic: "/api/placeholder/40/40",
+        content: "Beautiful sunset today!",
+        media: "/api/placeholder/600/400",
+        mediaType: "image",
+        timestamp: new Date(Date.now() - 7200000).toISOString(),
+        likes: 27,
+        comments: [
+          { userId: 2, username: "Jane Smith", userPic: "/api/placeholder/32/32", text: "Wow, that's gorgeous!" }
+        ]
+      }
+    ];
+    
+    // Sample friends data
+    const sampleFriends = [
+      { id: 2, name: "Jane Smith", profilePic: "/api/placeholder/40/40" },
+      { id: 3, name: "Mike Johnson", profilePic: "/api/placeholder/40/40" },
+      { id: 4, name: "Sarah Williams", profilePic: "/api/placeholder/40/40" }
+    ];
+    
+    // DOM Elements
+    const postButton = document.getElementById("post-button");
+    const postInput = document.getElementById("post-input");
+    const imageUpload = document.getElementById("image-upload");
+    const videoUpload = document.getElementById("video-upload");
+    const feed = document.getElementById("feed");
+    const friendsList = document.getElementById("friends-list");
+    const postsRemaining = document.getElementById("posts-remaining");
+    const messageOverlay = document.getElementById("message-overlay");
+    const messageTitle = document.getElementById("message-title");
+    const messageContent = document.getElementById("message-content");
+    const messageButton = document.getElementById("message-button");
+    const addFriendBtn = document.getElementById("add-friend-btn");
+    const userPic = document.getElementById("user-pic");
+    const username = document.getElementById("username");
+    
+    // Set user info
+    userPic.src = user.profilePic;
+    username.textContent = user.name;
+    
+    // Media upload variables
+    let selectedMedia = null;
+    let selectedMediaType = null;
+    
+    // Initialize the app
+    function initApp() {
+      // Add friends
+      renderFriends();
+      
+      // Add sample posts
+      renderPosts();
+      
+      // Update posts remaining
+      updatePostsRemaining();
+      
+      // Event listeners
+      postInput.addEventListener("input", checkPostButton);
+      imageUpload.addEventListener("change", handleMediaUpload);
+      videoUpload.addEventListener("change", handleMediaUpload);
+      postButton.addEventListener("click", createPost);
+      messageButton.addEventListener("click", closeMessage);
+      addFriendBtn.addEventListener("click", addRandomFriend);
+    }
+    
+    // Render friends list
+    function renderFriends() {
+      friendsList.innerHTML = "";
+      if (user.friends.length === 0) {
+        friendsList.innerHTML = "<div>No friends yet. Add some friends to start posting!</div>";
+        return;
+      }
+      
+      user.friends.forEach(friend => {
+        const friendElement = document.createElement("div");
+        friendElement.className = "friend";
+        friendElement.innerHTML = `
+          <img src="${friend.profilePic}" alt="${friend.name}" class="friend-pic">
+          <div class="friend-name">${friend.name}</div>
+        `;
+        friendsList.appendChild(friendElement);
+      });
+    }
+    
+    // Render posts
+    function renderPosts() {
+      feed.innerHTML = "";
+      
+      const allPosts = [...samplePosts, ...user.posts];
+      allPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      allPosts.forEach(post => {
+        const postElement = document.createElement("div");
+        postElement.className = "post";
+        
+        // Format timestamp
+        const postDate = new Date(post.timestamp);
+        const timeAgo = getTimeAgo(postDate);
+        
+        // Media element
+        let mediaElement = "";
+        if (post.media) {
+          if (post.mediaType === "image") {
+            mediaElement = `<img src="${post.media}" alt="Post image" class="post-media">`;
+          } else if (post.mediaType === "video") {
+            mediaElement = `<video src="${post.media}" controls class="post-media"></video>`;
+          }
+        }
+        
+        // Comments
+        let commentsHTML = "";
+        post.comments.forEach(comment => {
+          commentsHTML += `
+            <div class="comment">
+              <img src="${comment.userPic}" alt="${comment.username}" class="comment-pic">
+              <div class="comment-content">
+                <div class="comment-username">${comment.username}</div>
+                <div class="comment-text">${comment.text}</div>
+              </div>
+            </div>
+          `;
+        });
+        
+        postElement.innerHTML = `
+          <div class="post-header">
+            <img src="${post.userPic}" alt="${post.username}" class="post-user-pic">
+            <div class="post-info">
+              <div class="post-username">${post.username}</div>
+              <div class="post-time">${timeAgo}</div>
+            </div>
+          </div>
+          <div class="post-content">${post.content}</div>
+          ${mediaElement}
+          <div class="post-stats">
+            <div>${post.likes} likes</div>
+            <div>${post.comments.length} comments</div>
+          </div>
+          <div class="post-actions-bar">
+            <div class="post-action like-action" data-post-id="${post.id}">Like</div>
+            <div class="post-action comment-action" data-post-id="${post.id}">Comment</div>
+            <div class="post-action share-action" data-post-id="${post.id}">Share</div>
+          </div>
+          <div class="comments-section">
+            ${commentsHTML}
+            <div class="comment-input-container">
+              <img src="${user.profilePic}" alt="${user.name}" class="comment-pic">
+              <input type="text" placeholder="Write a comment..." class="comment-input" data-post-id="${post.id}">
+            </div>
+          </div>
+        `;
+        
+        // Add event listeners for like, comment, share
+        const likeAction = postElement.querySelector(".like-action");
+        const commentAction = postElement.querySelector(".comment-action");
+        const shareAction = postElement.querySelector(".share-action");
+        const commentInput = postElement.querySelector(".comment-input");
+        
+        likeAction.addEventListener("click", () => likePost(post.id));
+        commentAction.addEventListener("click", () => commentInput.focus());
+        shareAction.addEventListener("click", () => sharePost(post.id));
+        commentInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter" && commentInput.value.trim() !== "") {
+            addComment(post.id, commentInput.value.trim());
+            commentInput.value = "";
+          }
+        });
+        
+        feed.appendChild(postElement);
+      });
+    }
+    
+    // Update posts remaining count
+    function updatePostsRemaining() {
+      const friendCount = user.friends.length;
+      let postsAllowed = 0;
+      
+      if (friendCount === 0) {
+        postsAllowed = 0;
+      } else if (friendCount < 2) {
+        postsAllowed = 1;
+      } else if (friendCount < 10) {
+        postsAllowed = 2;
+      } else {
+        postsAllowed = 999; // Unlimited (multiple)
+      }
+      
+      const remaining = Math.max(0, postsAllowed - user.postsToday);
+      postsRemaining.textContent = remaining === 999 ? "Multiple" : remaining;
+      
+      // Update post button state
+      checkPostButton();
+    }
+    
+    // Check if post button should be enabled
+    function checkPostButton() {
+      const friendCount = user.friends.length;
+      let postsAllowed = 0;
+      
+      if (friendCount === 0) {
+        postsAllowed = 0;
+      } else if (friendCount < 2) {
+        postsAllowed = 1;
+      } else if (friendCount < 10) {
+        postsAllowed = 2;
+      } else {
+        postsAllowed = 999; // Unlimited (multiple)
+      }
+      
+      const remaining = Math.max(0, postsAllowed - user.postsToday);
+      
+      if (remaining === 0) {
+        postButton.disabled = true;
+        return;
+      }
+      
+      postButton.disabled = postInput.value.trim() === "" && !selectedMedia;
+    }
+    
+    // Handle media upload
+    function handleMediaUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      // In a real app, you'd upload the file to a server
+      // For this demo, we'll use a placeholder
+      
+      selectedMedia = "/api/placeholder/600/400";
+      selectedMediaType = e.target.id === "image-upload" ? "image" : "video";
+      
+      showMessage("Media Selected", `${file.name} selected for upload. Click Post to publish.`);
+      checkPostButton();
+    }
+    
+    // Create a new post
+    function createPost() {
+      const content = postInput.value.trim();
+      
+      if (user.friends.length === 0) {
+        showMessage("Cannot Post", "You need at least one friend to post content.");
+        return;
+      }
+      
+      const friendCount = user.friends.length;
+      let postsAllowed = 0;
+      
+      if (friendCount === 0) {
+        postsAllowed = 0;
+      } else if (friendCount < 2) {
+        postsAllowed = 1;
+      } else if (friendCount < 10) {
+        postsAllowed = 2;
+      } else {
+        postsAllowed = 999; // Unlimited (multiple)
+      }
+      
+      if (user.postsToday >= postsAllowed) {
+        showMessage("Post Limit Reached", "You've reached your daily post limit based on your friend count.");
+        return;
+      }
+      
+      if (content === "" && !selectedMedia) {
+        return;
+      }
+      
+      // Create new post
+      const newPost = {
+        id: Date.now(),
+        userId: user.id,
+        username: user.name,
+        userPic: user.profilePic,
+        content: content,
+        media: selectedMedia,
+        mediaType: selectedMediaType,
+        timestamp: new Date().toISOString(),
+        likes: 0,
+        comments: []
+      };
+      
+      // Add post to user's posts
+      user.posts.unshift(newPost);
+      user.postsToday++;
+      
+      // Clear input
+      postInput.value = "";
+      selectedMedia = null;
+      selectedMediaType = null;
+      
+      // Update UI
+      renderPosts();
+      updatePostsRemaining();
+      
+      showMessage("Post Created", "Your post has been published successfully!");
+    }
+    
+    // Like a post
+    function likePost(postId) {
+      const allPosts = [...samplePosts, ...user.posts];
+      const post = allPosts.find(p => p.id === postId);
+      
+      if (post) {
+        post.likes++;
+        renderPosts();
+      }
+    }
+    
+    // Add a comment to a post
+    function addComment(postId, text) {
+      const allPosts = [...samplePosts, ...user.posts];
+      const post = allPosts.find(p => p.id === postId);
+      
+      if (post) {
+        post.comments.push({
+          userId: user.id,
+          username: user.name,
+          userPic: user.profilePic,
+          text: text
+        });
+        renderPosts();
+      }
+    }
+    
+    // Share a post
+    function sharePost(postId) {
+      showMessage("Share Feature", "This is a demo. In a real app, you would be able to share this post.");
+    }
+    
+    // Add a random friend
+    function addRandomFriend() {
+      if (user.friends.length >= sampleFriends.length) {
+        showMessage("Friend Limit", "You've added all available friends in this demo.");
+        return;
+      }
+      
+      // Find a friend that hasn't been added yet
+      const availableFriends = sampleFriends.filter(friend => 
+        !user.friends.some(userFriend => userFriend.id === friend.id)
+      );
+      
+      if (availableFriends.length === 0) {
+        showMessage("No More Friends", "No more friends available to add.");
+        return;
+      }
+      
+      // Add a random friend
+      const randomIndex = Math.floor(Math.random() * availableFriends.length);
+      const newFriend = availableFriends[randomIndex];
+      user.friends.push(newFriend);
+      
+      // Update UI
+      renderFriends();
+      updatePostsRemaining();
+      
+      showMessage("Friend Added", `${newFriend.name} is now your friend! You can now post ${getPostsAllowedText(user.friends.length)}`);
+    }
+    
+    // Get posts allowed text
+    function getPostsAllowedText(friendCount) {
+      if (friendCount === 0) {
+        return "0 times per day.";
+      } else if (friendCount === 1) {
+        return "1 time per day.";
+      } else if (friendCount < 10) {
+        return "2 times per day.";
+      } else {
+        return "multiple times per day.";
+      }
+    }
+    
+    // Show message
+    function showMessage(title, content) {
+      messageTitle.textContent = title;
+      messageContent.textContent = content;
+      messageOverlay.classList.remove("hidden");
+    }
+    
+    // Close message
+    function closeMessage() {
+      messageOverlay.classList.add("hidden");
+    }
+    
+    // Get time ago
+    function getTimeAgo(date) {
+      const seconds = Math.floor((new Date() - date) / 1000);
+      
+      let interval = Math.floor(seconds / 31536000);
+      if (interval > 1) return interval + " years ago";
+      if (interval === 1) return "1 year ago";
+      
+      interval = Math.floor(seconds / 2592000);
+      if (interval > 1) return interval + " months ago";
+      if (interval === 1) return "1 month ago";
+      
+      interval = Math.floor(seconds / 86400);
+      if (interval > 1) return interval + " days ago";
+      if (interval === 1) return "1 day ago";
+      
+      interval = Math.floor(seconds / 3600);
+      if (interval > 1) return interval + " hours ago";
+      if (interval === 1) return "1 hour ago";
+      
+      interval = Math.floor(seconds / 60);
+      if (interval > 1) return interval + " minutes ago";
+      if (interval === 1) return "1 minute ago";
+      
+      return "just now";
+    }
+    
+    // Initialize the app
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
